@@ -3,7 +3,7 @@ require File.expand_path(File.dirname(__FILE__) + '/neo')
 class AboutSymbols < Neo::Koan
   def test_symbols_are_symbols
     symbol = :ruby
-    assert_equal __, symbol.is_a?(Symbol)
+    assert_equal true, symbol.is_a?(Symbol)
   end
 
   def test_symbols_can_be_compared
@@ -11,34 +11,59 @@ class AboutSymbols < Neo::Koan
     symbol2 = :a_symbol
     symbol3 = :something_else
 
-    assert_equal __, symbol1 == symbol2
-    assert_equal __, symbol1 == symbol3
+    assert_equal true, symbol1 == symbol2
+    assert_equal false, symbol1 == symbol3
   end
 
   def test_identical_symbols_are_a_single_internal_object
     symbol1 = :a_symbol
     symbol2 = :a_symbol
 
-    assert_equal __, symbol1           == symbol2
-    assert_equal __, symbol1.object_id == symbol2.object_id
+    assert_equal true, symbol1           == symbol2
+    assert_equal true, symbol1.object_id == symbol2.object_id
   end
 
   def test_method_names_become_symbols
     symbols_as_strings = Symbol.all_symbols.map { |x| x.to_s }
-    assert_equal __, symbols_as_strings.include?("test_method_names_become_symbols")
+    assert_equal true, symbols_as_strings.include?("test_method_names_become_symbols")
   end
 
   # THINK ABOUT IT:
   #
   # Why do we convert the list of symbols to strings and then compare
   # against the string value rather than against symbols?
-
+  # - Because the list of symbols is a list of symbols, not strings.
+  # We can create symbols using def?
+  # - No, we can't. Symbols are created by using the colon (:) operator.
+  # what does symbol.all_symbols do?
+  # - It returns an array of all the symbols in the program.
+  # are there default symbols?
+  # - Yes, there are. For example, :test_method_names_become_symbols is a default symbol.
+  # so that's something baked into ruby?
+  # - Yes, it is.
+  # what is the difference between a symbol and a string?
+  # - A symbol is immutable, whereas a string is mutable.
+  # is there a comparable version of let/const in javascript for ruby?
+  # - Yes, there is. It's called a constant.
+  # what is a constant?
+  # - A constant is a variable that cannot be changed.
+  # how do you create a constant?
+  # - You create a constant by using the capital letter at the beginning of the variable name.
+  # what does def do?
+  # - It defines a method.
+  # methods exist on classes?
+  # - Yes, they do.
+  # what does the below do?
+  # but what about in_ruby_version?
+  # - It checks if the current ruby version is the same as the one specified.
+  # "mri" is the current ruby version?
+  # - Yes, it is.
   in_ruby_version("mri") do
     RubyConstant = "What is the sound of one hand clapping?"
     def test_constants_become_symbols
       all_symbols_as_strings = Symbol.all_symbols.map { |x| x.to_s }
 
-      assert_equal __, all_symbols_as_strings.include?(__)
+      assert_equal false, all_symbols_as_strings.include?("What is the sound of one hand clapping?")
     end
   end
 
